@@ -19,6 +19,10 @@
         <div>{{ msg2 }}</div>
         <div v-text="msg2"></div>
         <div v-html="msg2"></div>
+
+        <input type="button" value="按钮" v-bind:title="mytitle + '123'">
+
+        <input type="button" value="按钮" @click="show">
     </div>
 
     <script src="./lib/vue-2.4.0.js"></script>
@@ -28,7 +32,13 @@
             el: '#app',
             data: {
                 msg: '123',
-                msg2: '<h1>哈哈，我是一个H1，我大，我骄傲</h1>'
+                msg2: '<h1>哈哈，我是一个H1，我大，我骄傲</h1>',
+                mytitle: '这是自定义的一个title'
+            },
+            methods: {
+                show: function(){
+                    alert('hello')
+                }
             }
         })
     </script>
