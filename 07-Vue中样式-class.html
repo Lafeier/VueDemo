@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .red{
+            color:red;
+        }
+
+        .thin{
+            font-weight:bold;
+        }
+
+        .italic{
+            font-style:italic;
+        }
+
+        .active{
+            letter-spacing:0.5em;
+        }
+    </style>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 第一种方式：通过直接传递一个数组的方式，注意这里的calss需要使用v-bind来做数据绑定 -->
+        <!-- <h1 :class="['red','italic']">这是一个很大很大的h1，大到你无法想象！</h1> -->
+
+        <!-- 第二种方式：通过在数组中使用三元表达式的方式 -->
+        <!-- <h1 :class="['red', 'italic', flag ?'active':'']">这是一个很大很大的h1，大到你无法想象！</h1>
+        -->
+
+        <!-- 第三种方式：通过在数组中嵌套对象的方式 -->
+        <!-- <h1 :class="['red', 'italic', {'active':flag}]">这是一个很大很大的h1，大到你无法想象！</h1> -->
+
+        <h1 :class="classObj">这是一个很大很大的h1，大到你无法想象！</h1>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                classObj: { red: true, thin: true, italic: false, active: false }
+            },
+            methods: {}
+        })
+    </script>
+</body>
+</html>
