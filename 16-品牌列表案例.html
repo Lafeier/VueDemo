@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">
+                    ID：
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+
+                <label for="">
+                    Name：
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+
+                <label for="">
+                    搜索关键字：
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+            </div>
+        </div>
+
+        <!-- 列表 -->
+        <table class="table table-bordered table-hober table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Opertaion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in search(keywords)" :key="item.id">
+                    <th>{{ item.id }}</th>
+                    <th v-text="item.name"></th>
+                    <th>{{ item.ctime }}</th>
+                    <th>
+                        <a href="" class="btn btn-primary" @click.prevent="del(item.id)">删除</a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',   //搜索的关键字
+                list: [
+                    { id: 1, name: '奔驰', ctime: new Date() },
+                    { id: 2, name: '宝马', ctime: new Date() },
+                    { id: 3, name: '奥迪', ctime: new Date() }
+                ]
+            },
+            methods: {
+                add() {     //添加数据的方法
+                    var car = { id: this.id, name: this.name, ctime: new Date() };
+                    this.list.push(car);
+                    this.id = this.name ='';
+                },
+                del(id) {   //根据ID来删除数据的方法
+                    // 分析：
+                    // 1.如果根据ID，来找到要删除的这一项的索引
+                    // 2.如果找到了，调用数组的splice()方法
+
+                    // 第一种方法：
+                    // this.list.some( (item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1);
+                    //         // 在数组的some方法中，如果return true，就会立即终止这个数组的后续循环
+                    //         return true;
+                    //     }
+                    // });
+                    
+                    // 第二种方法：findIndex()是ES6中新增的数组方法
+                    // findIndex()是专门用来查找索引的方法
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true;
+                        }
+                    });
+                    // console.log(index);
+                    this.list.splice(index, 1); //找到索引后调用数组方法来删除
+                },
+                search(keywords) {
+                    // var newList = [];
+                    // this.list.forEach(item => {
+                    //     if (item.name.indexOf(keywords) != -1) {
+                    //         newList.push(item);
+                    //     }
+                    // });
+                    // return newList;
+
+                    // 注意：forEach  some  filter  findIdex 这些都属于ES6中新增的数组方法
+                    // 都会对数组中的每一项，进行遍历，执行相关操作
+                    return this.list.filter(item => {
+                        // if (item.name.indexOf(keywords) != -1)
+
+                        // 注意：在ES6中，为字符串增加了一个新方法，叫做 String.prototype.includes('要包含的字符串')
+                        // 如果包含，返回true，如果不包含，返回false
+                        if (item.name.includes(keywords)) {
+                            return item;
+                        }
+                    });
+
+                    // return newList;  
+                }
+            }
+        });
+    </script>
+</body>
+</html>
