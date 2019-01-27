@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg | msgFormat('大牛', '老牛') | test }}</p>
+    </div>
+
+    <script>
+        // 定义一个Vue的全局过滤器，名称是msgFormat
+        Vue.filter('msgFormat', function(msg, arg, arg2) {
+            // 字符串中的 replace 方法，第一个参数除了可以是字符串外，还可以是一个正则
+            // return msg.replace('菜鸟', '老鸟');     // 这种写法只是替换了第一个
+            return msg.replace(/菜鸟/g, arg + arg2);    // 替换所有的菜鸟
+        });
+
+        Vue.filter('test', function(msg) {
+            return msg + '========';
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '我是一只前端小菜鸟，菜鸟前端都是由前端小菜鸟成长起来的'
+            },
+            methods: {}
+        });
+    </script>
+</body>
+</html>
